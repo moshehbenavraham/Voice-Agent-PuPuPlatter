@@ -10,6 +10,7 @@ import {
   PhoneCall,
   Sparkle,
   Sparkles,
+  Volume2,
 } from 'lucide-react';
 import type { ProviderType } from '@/types';
 import { cn } from '@/lib/utils';
@@ -60,6 +61,7 @@ export const indicatorVariants: Variants = {
 const PROVIDER_ICONS: Record<ProviderType, React.ComponentType<{ className?: string }>> = {
   elevenlabs: AudioLines,
   'elevenlabs-sdk': Mic,
+  sixtydb: Volume2,
   xai: Bot,
   openai: Sparkles,
   'openai-translation': Languages,

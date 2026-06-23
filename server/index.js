@@ -11,7 +11,9 @@ import openaiRoutes from './routes/openai.js';
 import ultravoxRoutes from './routes/ultravox.js';
 import retellRoutes from './routes/retell.js';
 import geminiRoutes from './routes/gemini.js';
+import sixtydbRoutes from './routes/sixtydb.js';
 import functionsRoutes from './routes/functions.js';
+import { attachSixtyDbTtsRelay } from './ws/sixtydb-tts.js';
 import {
   REQUEST_ID_HEADER,
   createRequestLoggingMiddleware,
@@ -126,6 +128,7 @@ function createProviderStatus(requiredEnv) {
 function getProviderServices() {
   return {
     elevenlabs: createProviderStatus(['ELEVENLABS_API_KEY', 'VITE_ELEVENLABS_AGENT_ID']),
+    sixtydb: createProviderStatus(['SIXTYDB_API_KEY', 'ANTHROPIC_API_KEY']),
     openai: createProviderStatus(['OPENAI_API_KEY']),
     xai: createProviderStatus(['XAI_API_KEY']),
     ultravox: createProviderStatus(['ULTRAVOX_API_KEY']),
@@ -277,6 +280,7 @@ app.use('/api/openai', openaiRoutes);
 app.use('/api/ultravox', ultravoxRoutes);
 app.use('/api/retell', retellRoutes);
 app.use('/api/gemini', geminiRoutes);
+app.use('/api/60db', sixtydbRoutes);
 app.use('/api/functions', functionsRoutes);
 
 // Health check endpoint
@@ -442,13 +446,15 @@ if (isProduction) {
   });
 }
 
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
   console.log(`[Server] Running on http://localhost:${PORT}`);
   console.log(`[Server] Mode: ${isProduction ? 'production' : 'development'}${isDemoMode ? ' (demo)' : ''}`);
   console.log(`[Server] CORS origins: ${securityConfig.origins.join(', ') || 'none'}`);
   if (isDemoMode) {
     console.log('[Server] Demo mode: CORS configured for ngrok tunnel');
   }
+  console.log(`[Server] 60db API key: ${process.env.SIXTYDB_API_KEY ? 'Yes' : 'No'}`);
+  console.log(`[Server] Anthropic (Claude) API key: ${process.env.ANTHROPIC_API_KEY ? 'Yes' : 'No'}`);
   console.log(`[Server] ElevenLabs API key: ${process.env.ELEVENLABS_API_KEY ? 'Yes' : 'No'}`);
   console.log(`[Server] ElevenLabs Agent ID: ${process.env.VITE_ELEVENLABS_AGENT_ID ? 'Yes' : 'No'}`);
   console.log(`[Server] xAI API key: ${process.env.XAI_API_KEY ? 'Yes' : 'No'}`);
@@ -456,4 +462,11 @@ app.listen(PORT, () => {
   console.log(`[Server] Ultravox API key: ${process.env.ULTRAVOX_API_KEY ? 'Yes' : 'No'}`);
   console.log(`[Server] Retell API key: ${process.env.RETELL_API_KEY ? 'Yes' : 'No'}`);
   console.log(`[Server] Gemini API key: ${process.env.GEMINI_API_KEY ? 'Yes' : 'No'}`);
+});
+
+// Attach the 60db streaming TTS WebSocket relay to the same HTTP server so the
+// 60db API key stays server-side (browser connects to /api/60db/tts).
+attachSixtyDbTtsRelay(server, {
+  allowedOrigins: securityConfig.origins,
+  isProduction,
 });

@@ -71,3 +71,13 @@ export {
 } from './GeminiProvider';
 
 export { GeminiEmptyState } from './GeminiEmptyState';
+
+export {
+  SixtyDbProvider,
+  SixtyDbButton,
+  SixtyDbVoiceStatus,
+  SixtyDbVoiceSelector,
+  SixtyDbEmptyState,
+  useSixtyDbConfigured,
+  checkSixtyDbConfiguration,
+} from './SixtyDbProvider';

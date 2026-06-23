@@ -11,3 +11,4 @@ export { UltravoxConversationPanel } from './UltravoxConversationPanel';
 export { VapiConversationPanel } from './VapiConversationPanel';
 export { RetellConversationPanel } from './RetellConversationPanel';
 export { GeminiConversationPanel } from './GeminiConversationPanel';
+export { SixtyDbConversationPanel } from './SixtyDbConversationPanel';

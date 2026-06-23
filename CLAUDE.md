@@ -200,7 +200,26 @@ src/
    - Voice Activity Detection (VAD) for automatic turn-taking
    - Emerald/green color scheme to distinguish from other providers
 
-8. **Reconnection with Backoff** (Phase 02):
+8. **60db Voice Agent** (STT + TTS + Claude brain):
+   - 60db provides TTS + STT primitives only (no LLM), so this tab assembles a
+     full conversational agent: mic → VAD → 60db STT → Claude → 60db streaming TTS → playback
+   - Hands-free turn-taking via client-side energy VAD (`lib/sixtydb/vad.ts`),
+     which segments utterances since 60db STT is batch (needs a complete utterance)
+   - All secrets stay server-side: `server/routes/sixtydb.js` proxies STT (`/api/60db/stt`),
+     the Claude brain (`/api/60db/chat`, plain fetch to the Anthropic Messages API),
+     and the voice catalog (`/api/60db/voices` → `/myvoices`)
+   - Streaming TTS uses a backend WebSocket relay (`server/ws/sixtydb-tts.js`,
+     attached to the HTTP server) so `SIXTYDB_API_KEY` never reaches the browser;
+     the browser speaks the native 60db protocol (create_context/send_text/flush_context)
+     over `/api/60db/tts` via `lib/sixtydb/tts-client.ts`
+   - `SixtyDbVoiceContext.tsx` orchestrates the loop; `useSixtyDbVoice.ts` exposes it
+   - LINEAR16 PCM16 @24kHz playback via `lib/sixtydb/audio-streamer.ts`; barge-in supported
+   - Requires `SIXTYDB_API_KEY` + `ANTHROPIC_API_KEY` (backend), `VITE_SIXTYDB_ENABLED`
+     and a `VITE_SIXTYDB_VOICE` id (account-specific). Adds the `ws` server dependency.
+   - Claude model configurable via `SIXTYDB_CHAT_MODEL` (default `claude-haiku-4-5-20251001`)
+   - Violet color scheme to distinguish from other providers
+
+9. **Reconnection with Backoff** (Phase 02):
    - Automatic reconnection on WebSocket disconnect
    - Exponential backoff: 1s, 2s, 4s, 8s, up to 30s max
    - Maximum 10 retry attempts

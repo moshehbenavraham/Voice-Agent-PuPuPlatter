@@ -12,6 +12,7 @@
 export type ProviderType =
   | 'elevenlabs'
   | 'elevenlabs-sdk'
+  | 'sixtydb'
   | 'xai'
   | 'openai'
   | 'openai-translation'
@@ -26,6 +27,7 @@ export type ProviderType =
 export const PROVIDER_ORDER = [
   'elevenlabs',
   'elevenlabs-sdk',
+  'sixtydb',
   'xai',
   'openai',
   'openai-translation',
@@ -148,6 +150,13 @@ const isElevenLabsSDKEnabled = (): boolean => {
 };
 
 /**
+ * Check if the 60db provider is enabled via environment variable.
+ */
+const isSixtyDbEnabled = (): boolean => {
+  return isEnabledEnvValue(import.meta.env.VITE_SIXTYDB_ENABLED);
+};
+
+/**
  * Check if xAI provider is enabled via environment variable.
  */
 const isXAIEnabled = (): boolean => {
@@ -212,6 +221,8 @@ export function isProviderAvailableInEnv(provider: ProviderType): boolean {
       return isElevenLabsWidgetEnabled();
     case 'elevenlabs-sdk':
       return isElevenLabsSDKEnabled();
+    case 'sixtydb':
+      return isSixtyDbEnabled();
     case 'xai':
       return isXAIEnabled();
     case 'openai':
@@ -261,6 +272,14 @@ export const PROVIDERS: Record<ProviderType, VoiceProvider> = {
     isAvailable: isElevenLabsSDKEnabled(),
     requiresApiKey: true,
     icon: 'Mic',
+  },
+  sixtydb: {
+    id: 'sixtydb',
+    name: '60db',
+    description: '60db STT + TTS with a Claude brain',
+    isAvailable: isSixtyDbEnabled(),
+    requiresApiKey: true,
+    icon: 'Volume2',
   },
   xai: {
     id: 'xai',

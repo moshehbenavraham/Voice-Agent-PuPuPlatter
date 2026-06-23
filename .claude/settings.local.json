@@ -14,7 +14,9 @@
       "Bash(timeout 30s npm run dev)",
       "Bash(npm uninstall:*)",
       "WebFetch(domain:elevenlabs.io)",
-      "Bash(rm:*)"
+      "Bash(rm:*)",
+      "WebFetch(domain:docs.60db.ai)",
+      "Bash(npm run *)"
     ],
     "deny": []
   }
