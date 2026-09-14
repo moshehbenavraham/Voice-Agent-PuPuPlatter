@@ -52,7 +52,7 @@
     ]
   },
   "dependencies": {
-    "@elevenlabs/react": "^1.6.0",
+    "@elevenlabs/react": "^1.15.2",
     "@google/genai": "^2.4.0",
     "@livekit/components-react": "2.9.24",
     "@radix-ui/react-dialog": "^1.1.20",
