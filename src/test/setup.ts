@@ -1,4 +1,4 @@
-import '@testing-library/jest-dom';
+import '@testing-library/jest-dom/vitest';
 import { vi, beforeAll, afterAll } from 'vitest';
 
 // Suppress jsdom Canvas warning - this must be done before any Canvas elements are created
