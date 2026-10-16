@@ -8,10 +8,6 @@ updates:
       time: "08:00"
       timezone: "Etc/UTC"
     open-pull-requests-limit: 10
-    ignore:
-      # vitest 5 needs a dedicated migration PR; stay on 4.x until then
-      - dependency-name: "vitest"
-        update-types: ["version-update:semver-major"]
     commit-message:
       prefix: "chore(deps)"
     labels:
