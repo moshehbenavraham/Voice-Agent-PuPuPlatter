@@ -16,8 +16,8 @@
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
-    "@livekit/agents": "1.8.0",
-    "@livekit/rtc-node": "0.13.34",
+    "@livekit/agents": "1.9.3",
+    "@livekit/rtc-node": "^1.1.0",
     "dotenv": "17.4.2"
   },
   "devDependencies": {
