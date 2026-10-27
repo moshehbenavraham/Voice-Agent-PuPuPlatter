@@ -84,7 +84,7 @@
     "retell-client-js-sdk": "^2.0.8",
     "sonner": "^2.0.8",
     "tailwind-merge": "^3.6.0",
-    "ultravox-client": "^0.5.0"
+    "ultravox-client": "^0.6.0"
   },
   "optionalDependencies": {
     "concurrently": "^10.0.6",
