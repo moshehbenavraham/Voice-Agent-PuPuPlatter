@@ -71,7 +71,7 @@
     "clsx": "^2.1.1",
     "compression": "^1.8.2",
     "eventemitter3": "^5.0.4",
-    "framer-motion": "^12.38.0",
+    "framer-motion": "^14.8.0",
     "livekit-client": "2.22.4",
     "livekit-server-sdk": "2.18.0",
     "lucide-react": "^1.16.0",
